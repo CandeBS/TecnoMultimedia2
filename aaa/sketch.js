@@ -4,53 +4,69 @@
 //     ██ ██    ██ ██  ██ ██ ██ ██   ██ ██    ██ 
 //███████  ██████  ██   ████ ██ ██████   ██████  
 
-//-------CONFIGURACION----
-let AMP_MIN = 0.01; // umbral mínimo de amplitud. Señal que supera al ruido de fondo
-let AMP_MAX = 0.1; // umbral máximo de amplitud. 
-let FREC_MIN = 880;
-let FREC_MAX = 2000;
 
 //-----ENTRADA DE AUDIO----
 let mic;
 
-//-----CAMINANTE----
-let trazo; 
-
 //-----AMPLITUD----
-let amp; //variable de la amlitud
-let haySonido = false; // vaiable booleana que define el ESTADO
-let antesHabiaSonido = false; //memoria de la variable "haySonido". Guarda el valor de la variable en fotograma anterior
+let amp;
+let AMPMin = 0.03;
+let haySonido = false;
+
+//-----IMPRIMIR----
+let IMPRIMIR = true;
+
+//-----COSITAS----
+let trazo;
+let limon;
+let limas = [];
+let limones = [];
+let mostrarLimon = false;
+let mostrarLima = false;
+let generarLimaTimeout;
+let contadorLimas = 0;
+let contadorLimones = 0;
 
 //------CLASIFICADOR-----
 let classifier;
 const options = { probabilityThreshold: 0.9 };
 let label;
 let etiqueta;
-const classModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
+const soundModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
+
   
-  // Teachable Machine model URL:
- // let soundModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
-  
- function setup() {
+function preload() {
+    // Load the model
+    classifier = ml5.soundClassifier(soundModel + 'model.json');
+  }
+
+
+//███████ ███████ ████████ ██    ██ ██████  
+//██      ██         ██    ██    ██ ██   ██ 
+//███████ █████      ██    ██    ██ ██████  
+//     ██ ██         ██    ██    ██ ██      
+//███████ ███████    ██     ██████  ██      
+
+function setup() {
   createCanvas(700, 850);
+  background(220);
   frameRate(10);
-  
-  limon = new Limon();
+
+  limon = new Limon(); 
   limas = new Limas();
   limas2 = new Limas();
 
   trazo = new Caminante();
+  generarLimones();
 
-  audioContext = getAudioContext();
-  mic = new p5.AudioIn();
-  mic.start(startPitch);
-
-  // Inicializar el clasificador
-  classifier = ml5.soundClassifier(classModel + 'model.json', options);
-
-  // Comenzar a clasificar
+  // The sound model will continuously listen to the microphone
   classifier.classify(gotResult);
 
+  //-----MICROFONO----
+  mic = new p5.AudioIn();
+  mic.start();
+
+  userStartAudio();
 }
 
 //██████  ██████   █████  ██     ██ 
@@ -59,27 +75,45 @@ const classModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
 //██   ██ ██   ██ ██   ██ ██ ███ ██ 
 //██████  ██   ██ ██   ██  ███ ███  
 function draw() {
-  if (label == 'Shhh'){
-    background (255,0,0)
-    limon.clear();
-    label = ' ';
-  } else if (label == 'Aplauso'){
-    limon.dibujar();
+
+  // Amplitud para el dibujo
+  amp = mic.getLevel();
+  haySonido = amp > AMPMin;
+
+if (haySonido){
+
+// Dibujar las limas
+limas.dibujar();
+limas2.dibujar();
+
+// Mover y dibujar el trazo
+trazo.mover();
+trazo.dibujar();
+
+for (let i = 0; i < limones.length; i++) {
+  limones[i].dibujar();
+}
+
   }
 
-  background(220);
-  limon.dibujar();
-  limas.dibujar();
-  limas2.dibujar();
+  function generarLimones() {
+    if (label === 'Aplauso') {
+      if (limones.length >= 1) {
+        limones.shift(); // Eliminar limon del arreglo
+      }
+      let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
+      limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
+    }
+}
 
-  trazo.mover();
-  trazo.dibujar();
+// Mostrar la etiqueta en el centro de la pantalla
+fill(255);
+textSize(32);
+textAlign(CENTER, CENTER);
+text(label, width / 2, height / 2);
 
-  fill(255);
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text(label, width / 2, height / 2);
-
+if(IMPRIMIR){
+  printData();
 }
 
 function gotResult(error, results) {
@@ -87,7 +121,21 @@ function gotResult(error, results) {
     console.error(error);
     return;
   }
-  // The results are in an array ordered by confidence.
+
   // console.log(results[0]);
   label = results[0].label;
+}
+
+//-----IMPRIMIR pt2---
+function printData(){
+  push();
+  textSize(16);
+  fill(0);
+  let texto;
+
+  texto = 'amplitud: ' + amp;
+  text(texto, 100,20);
+  pop();
+
+}
 }
