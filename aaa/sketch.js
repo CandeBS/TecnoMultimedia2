@@ -20,12 +20,8 @@ let IMPRIMIR = true;
 let trazo;
 let limon;
 let limas = [];
-let limones = [];
-let mostrarLimon = false;
-let mostrarLima = false;
-let generarLimaTimeout;
-let contadorLimas = 0;
-let contadorLimones = 0;
+let limones = []; 
+let mostrarLimon = false; 
 
 //------CLASIFICADOR-----
 let classifier;
@@ -40,6 +36,16 @@ function preload() {
     classifier = ml5.soundClassifier(soundModel + 'model.json');
   }
 
+ function generarLimones() {
+   if (label === 'Aplauso') {
+    if (limones.length >= 1) {
+        limones.shift(); // Eliminar limon del arreglo
+      }
+      let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
+      limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
+    } 
+ } 
+
 
 //███████ ███████ ████████ ██    ██ ██████  
 //██      ██         ██    ██    ██ ██   ██ 
@@ -52,12 +58,11 @@ function setup() {
   background(220);
   frameRate(10);
 
-  limon = new Limon(); 
+  limon = new Limon();
   limas = new Limas();
   limas2 = new Limas();
 
   trazo = new Caminante();
-  generarLimones();
 
   // The sound model will continuously listen to the microphone
   classifier.classify(gotResult);
@@ -92,30 +97,14 @@ trazo.dibujar();
 
 for (let i = 0; i < limones.length; i++) {
   limones[i].dibujar();
-}
+} 
 
   }
-
-  function generarLimones() {
-    if (label === 'Aplauso') {
-      if (limones.length >= 1) {
-        limones.shift(); // Eliminar limon del arreglo
-      }
-      let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
-      limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
-    }
-}
-
-// Mostrar la etiqueta en el centro de la pantalla
-fill(255);
-textSize(32);
-textAlign(CENTER, CENTER);
-text(label, width / 2, height / 2);
 
 if(IMPRIMIR){
   printData();
 }
-
+}
 function gotResult(error, results) {
   if (error) {
     console.error(error);
@@ -137,5 +126,4 @@ function printData(){
   text(texto, 100,20);
   pop();
 
-}
 }
