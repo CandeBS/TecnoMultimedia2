@@ -36,7 +36,7 @@ function preload() {
     classifier = ml5.soundClassifier(soundModel + 'model.json');
   }
 
- function generarLimones() {
+/*  function generarLimones() {
    if (label === 'Aplauso') {
     if (limones.length >= 1) {
         limones.shift(); // Eliminar limon del arreglo
@@ -44,7 +44,7 @@ function preload() {
       let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
       limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
     } 
- } 
+ }  */
 
 
 //███████ ███████ ████████ ██    ██ ██████  
@@ -95,9 +95,18 @@ limas2.dibujar();
 trazo.mover();
 trazo.dibujar();
 
+if (label === 'Aplauso') {
+  if (limones.length >= 1) {
+      limones.shift(); // Eliminar limon del arreglo
+    }
+    let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
+    limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
+  } 
+
 for (let i = 0; i < limones.length; i++) {
   limones[i].dibujar();
 } 
+
 
   }
 
