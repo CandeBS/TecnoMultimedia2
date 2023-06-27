@@ -91,10 +91,6 @@ if (haySonido){
 limas.dibujar();
 limas2.dibujar();
 
-// Mover y dibujar el trazo
-trazo.mover();
-trazo.dibujar();
-
 if (label === 'Aplauso') {
   if (limones.length >= 1) {
       limones.shift(); // Eliminar limon del arreglo
@@ -102,6 +98,11 @@ if (label === 'Aplauso') {
     let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
     limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
   } 
+
+if (label === 'Silbido'){
+  trazo.mover();
+  trazo.dibujar();  
+}
 
 for (let i = 0; i < limones.length; i++) {
   limones[i].dibujar();
