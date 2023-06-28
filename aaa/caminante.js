@@ -1,9 +1,8 @@
 class Caminante {
     constructor() {
       this.imagen = loadImage("data/lineaCua.png");
-     // this.x = random(width);
-     // this.y = random(height);
-      this.vel = 4;
+      
+      this.vel = 6;
       this.direccion = random(TWO_PI);
       this.t = 50;
 
