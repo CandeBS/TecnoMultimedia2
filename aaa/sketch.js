@@ -10,7 +10,7 @@ let mic;
 
 //-----AMPLITUD----
 let amp;
-let AMPMin = 0.03;
+let AMPMin = 0.02;
 let haySonido = false;
 
 //-----IMPRIMIR----
@@ -19,9 +19,26 @@ let IMPRIMIR = true;
 //-----COSITAS----
 let trazo;
 let limon;
+let textura;
 let limas = [];
-let limones = []; 
-let mostrarLimon = false; 
+
+//-----TEXTURA----
+class Textura {
+  constructor() {
+    this.textura = loadImage("data/textura.png");
+    this.tam = 900;
+    this.x = 0;
+    this.y = 0;
+  }
+
+  dibujar() {
+    push();
+    tint(208,208,208);
+    image(this.textura, this.x, this.y, this.tam, this.tam);
+    pop();
+  }
+}
+
 
 //------CLASIFICADOR-----
 let classifier;
@@ -35,16 +52,6 @@ function preload() {
     // Load the model
     classifier = ml5.soundClassifier(soundModel + 'model.json');
   }
-
-/*  function generarLimones() {
-   if (label === 'Aplauso') {
-    if (limones.length >= 1) {
-        limones.shift(); // Eliminar limon del arreglo
-      }
-      let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
-      limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
-    } 
- }  */
 
 
 //███████ ███████ ████████ ██    ██ ██████  
@@ -61,6 +68,7 @@ function setup() {
   limon = new Limon();
   limas = new Limas();
   limas2 = new Limas();
+  textura = new Textura();
 
   trazo = new Caminante();
 
@@ -92,11 +100,7 @@ limas.dibujar();
 limas2.dibujar();
 
 if (label === 'Aplauso') {
-  if (limones.length >= 1) {
-      limones.shift(); // Eliminar limon del arreglo
-    }
-    let nuevoLimon = new Limon(); // Crea una nueva instancia de Limon
-    limones.push(nuevoLimon); // Agrega la nueva instancia al arreglo de limones
+limon.dibujar();
   } 
 
 if (label === 'Silbido'){
@@ -104,16 +108,16 @@ if (label === 'Silbido'){
   trazo.dibujar();  
 }
 
-for (let i = 0; i < limones.length; i++) {
-  limones[i].dibujar();
-} 
+if (label === 'Shhh'){
+  textura.dibujar();
+}
 
 
   }
 
-if(IMPRIMIR){
+/* if(IMPRIMIR){
   printData();
-}
+} */
 }
 function gotResult(error, results) {
   if (error) {
@@ -126,7 +130,7 @@ function gotResult(error, results) {
 }
 
 //-----IMPRIMIR pt2---
-function printData(){
+/* function printData(){
   push();
   textSize(16);
   fill(0);
@@ -135,5 +139,5 @@ function printData(){
   texto = 'amplitud: ' + amp;
   text(texto, 100,20);
   pop();
-
 }
+ */
