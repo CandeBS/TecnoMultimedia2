@@ -21,6 +21,7 @@ let trazo;
 let limon;
 let textura;
 let limas = [];
+var fondo;
 
 //-----TEXTURA----
 class Textura {
@@ -33,7 +34,7 @@ class Textura {
 
   dibujar() {
     push();
-    tint(208,208,208);
+    tint(208,208,208,20);
     image(this.textura, this.x, this.y, this.tam, this.tam);
     pop();
   }
@@ -51,6 +52,7 @@ const soundModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
 function preload() {
     // Load the model
     classifier = ml5.soundClassifier(soundModel + 'model.json');
+    fondo = loadImage ('data/fondo.png');
   }
 
 
@@ -62,14 +64,13 @@ function preload() {
 
 function setup() {
   createCanvas(700, 850);
-  background(220);
+  background (fondo);
   frameRate(10);
 
   limon = new Limon();
   limas = new Limas();
   limas2 = new Limas();
   textura = new Textura();
-
   trazo = new Caminante();
 
   // The sound model will continuously listen to the microphone
@@ -88,7 +89,6 @@ function setup() {
 //██   ██ ██   ██ ██   ██ ██ ███ ██ 
 //██████  ██   ██ ██   ██  ███ ███  
 function draw() {
-
   // Amplitud para el dibujo
   amp = mic.getLevel();
   haySonido = amp > AMPMin;
@@ -110,10 +110,9 @@ if (label === 'Silbido'){
 
 if (label === 'Shhh'){
   textura.dibujar();
-}
-
 
   }
+}
 
 /* if(IMPRIMIR){
   printData();
@@ -128,16 +127,3 @@ function gotResult(error, results) {
   // console.log(results[0]);
   label = results[0].label;
 }
-
-//-----IMPRIMIR pt2---
-/* function printData(){
-  push();
-  textSize(16);
-  fill(0);
-  let texto;
-
-  texto = 'amplitud: ' + amp;
-  text(texto, 100,20);
-  pop();
-}
- */
