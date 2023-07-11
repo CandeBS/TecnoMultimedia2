@@ -11,7 +11,6 @@ let mic;
 //-----AMPLITUD----
 let amp;
 let AMPMin = 0.02;
-let haySonido = false;
 
 //-----IMPRIMIR----
 let IMPRIMIR = true;
@@ -19,8 +18,9 @@ let IMPRIMIR = true;
 //-----COSITAS----
 let trazo;
 let limon;
+let dibujarLimon = false;
 let textura;
-let limas = [];
+let limas;
 var fondo;
 
 //-----TEXTURA----
@@ -93,14 +93,14 @@ function draw() {
   amp = mic.getLevel();
   haySonido = amp > AMPMin;
 
-if (haySonido){
-
 // Dibujar las limas
 limas.dibujar();
 limas2.dibujar();
 
 if (label === 'Aplauso') {
-limon.dibujar();
+  limon.dibujar();
+  dibujarLimon = true;
+  label = ' '
   } 
 
 if (label === 'Silbido'){
@@ -112,7 +112,7 @@ if (label === 'Shhh'){
   textura.dibujar();
 
   }
-}
+
 
 /* if(IMPRIMIR){
   printData();
