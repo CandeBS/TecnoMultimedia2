@@ -8,6 +8,7 @@ class Limon {
   }
 
   dibujar() {
+    background(fondo); // Vuelve a dibujar el fondo
     image(this.limones[this.limoncin], this.x, this.y, this.tam, this.tam);
   }
 }
