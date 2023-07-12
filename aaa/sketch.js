@@ -17,11 +17,12 @@ let IMPRIMIR = true;
 
 //-----COSITAS----
 let trazo;
-let limon;
 let dibujarLimon = false;
 let textura;
 let limas;
 var fondo;
+let limones = [];
+const cantLimones = 4;
 
 //-----TEXTURA----
 class Textura {
@@ -69,9 +70,12 @@ function setup() {
 
   limon = new Limon();
   limas = new Limas();
-  limas2 = new Limas();
   textura = new Textura();
   trazo = new Caminante();
+
+  for (let i=0; i<cantLimones;i++){
+    limones[i] = loadImage ("./data/ovalo"+i+".png");
+  }
 
   // The sound model will continuously listen to the microphone
   classifier.classify(gotResult);
@@ -95,13 +99,13 @@ function draw() {
 
 // Dibujar las limas
 limas.dibujar();
-limas2.dibujar();
 
 if (label === 'Aplauso') {
+  limon = new Limon(limones);
   limon.dibujar();
+  limon.preload();
   dibujarLimon = true;
-  label = ' '
-  } 
+}
 
 if (label === 'Silbido'){
   trazo.mover();
