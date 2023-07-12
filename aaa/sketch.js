@@ -23,6 +23,7 @@ let limas;
 var fondo;
 let limones = [];
 const cantLimones = 4;
+let limonActual;
 
 //-----TEXTURA----
 class Textura {
@@ -104,8 +105,9 @@ function draw() {
 limas.dibujar();
 
 if (label === 'Aplauso') {
-  limon = new Limon(limones);
-  limon.dibujar();
+  limonActual = new Limon(limones);
+  background(fondo); // Vuelve a dibujar el fondo
+  limonActual.dibujar();
   dibujarLimon = true;
 }
 
