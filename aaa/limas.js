@@ -1,7 +1,7 @@
 
 class Limas{
     constructor() {
-        this.limas = loadImage("data/ovalo2.png");
+        this.limas = loadImage("data/lima.png");
         this.tam = random (350,450);
         this.y = 550;
         this.x = random(0,600);
