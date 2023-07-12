@@ -24,6 +24,7 @@ var fondo;
 let limones = [];
 const cantLimones = 4;
 let limonActual;
+let limaPGraphics;
 
 //-----TEXTURA----
 class Textura {
@@ -77,6 +78,9 @@ function setup() {
   textura = new Textura();
   trazo = new Caminante();
 
+  limaPGraphics = createGraphics(700, 850); // Crear el PGraphics con el tamaño deseado
+  limaPGraphics.background(0, 0); // Establecer un fondo transparente
+
   for (let i=0; i<cantLimones;i++){
     limones[i] = loadImage ("./data/ovalo"+i+".png");
   }
@@ -104,7 +108,7 @@ function draw() {
 // Dibujar las limas
 limas.dibujar();
 
-if (label === 'Aplauso') {
+if (label === 'Aplauso' && amp > 0.1) {
   limonActual = new Limon(limones);
   background(fondo); // Vuelve a dibujar el fondo
   limonActual.dibujar();
@@ -120,10 +124,11 @@ if (label === 'Shhh'){
   textura.dibujar();
   }
 
-  if (amp > 0.7) {
+  if (amp > 0.9) {
     window.location.reload(); // Recargar la página
   }
 
+  image(limaPGraphics, 0, 0);
 
 /* if(IMPRIMIR){
   printData();
