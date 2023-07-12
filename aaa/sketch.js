@@ -10,7 +10,7 @@ let mic;
 
 //-----AMPLITUD----
 let amp;
-let AMPMin = 0.02;
+let AMPMin = 0.04;
 
 //-----IMPRIMIR----
 let IMPRIMIR = true;
@@ -118,7 +118,10 @@ if (label === 'Silbido'){
 
 if (label === 'Shhh'){
   textura.dibujar();
+  }
 
+  if (amp > 0.7) {
+    window.location.reload(); // Recargar la página
   }
 
 
