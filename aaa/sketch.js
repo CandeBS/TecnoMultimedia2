@@ -51,6 +51,9 @@ const soundModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
 
   
 function preload() {
+  for (let i = 0; i < cantLimones; i++) {
+    limones[i] = loadImage("./data/ovalo" + i + ".png");
+  }
     // Load the model
     classifier = ml5.soundClassifier(soundModel + 'model.json');
     fondo = loadImage ('data/fondo.png');
@@ -103,7 +106,6 @@ limas.dibujar();
 if (label === 'Aplauso') {
   limon = new Limon(limones);
   limon.dibujar();
-  limon.preload();
   dibujarLimon = true;
 }
 
