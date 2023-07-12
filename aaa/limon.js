@@ -1,13 +1,13 @@
 class Limon {
-  constructor() {
-    this.limoncin = loadImage("data/ovalo2.png");
+  constructor(limones) {
+    this.limones = limones;
+    this.limoncin = Math.floor(Math.random() * cantLimones);
     this.tam = 700;
-    this.x = (random(0,350));
-    this.y = random(-300 , 70);
+    this.x = Math.random() * 350;
+    this.y = Math.random() * (-300 - 70) + 70;
   }
 
   dibujar() {
-    image(this.limoncin, this.x, this.y, this.tam, this.tam);
+    image(this.limones[this.limoncin], this.x, this.y, this.tam, this.tam);
   }
-
-} 
+}
