@@ -52,11 +52,11 @@ let etiqueta;
 const soundModel = 'https://teachablemachine.withgoogle.com/models/i7mh1r5L1/';
 
   
-function preload() {
+function preload() { //El arreglo de los limones
   for (let i = 0; i < cantLimones; i++) {
     limones[i] = loadImage("./data/ovalo" + i + ".png");
   }
-    // Load the model
+    // Cargar el modelo de Teacheable Machine
     classifier = ml5.soundClassifier(soundModel + 'model.json');
     fondo = loadImage ('data/fondo.png');
   }
@@ -73,13 +73,15 @@ function setup() {
   background (fondo);
   frameRate(10);
 
+  //Más cositas
   limon = new Limon();
   limas = new Limas();
   textura = new Textura();
   trazo = new Caminante();
 
-  limaPGraphics = createGraphics(700, 850); // Crear el PGraphics con el tamaño deseado
-  limaPGraphics.background(0, 0); // Establecer un fondo transparente
+  //PGraphics
+  limaPGraphics = createGraphics(700, 850);
+  limaPGraphics.background(0, 0); 
 
   for (let i=0; i<cantLimones;i++){
     limones[i] = loadImage ("./data/ovalo"+i+".png");
@@ -105,12 +107,12 @@ function draw() {
   amp = mic.getLevel();
   haySonido = amp > AMPMin;
 
-// Dibujar las limas
-limas.dibujar();
+  // Dibujar las limas
+  limas.dibujar();
 
 if (label === 'Aplauso' && amp > 0.1) {
   limonActual = new Limon(limones);
-  background(fondo); // Vuelve a dibujar el fondo
+  background(fondo); 
   limonActual.dibujar();
   dibujarLimon = true;
 }
@@ -124,15 +126,12 @@ if (label === 'Shhh'){
   textura.dibujar();
   }
 
-  if (amp > 0.9) {
-    window.location.reload(); // Recargar la página
+  if (amp > 0.5) {
+    window.location.reload(); 
   }
 
   image(limaPGraphics, 0, 0);
 
-/* if(IMPRIMIR){
-  printData();
-} */
 }
 function gotResult(error, results) {
   if (error) {
