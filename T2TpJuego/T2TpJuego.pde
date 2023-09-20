@@ -1,19 +1,22 @@
 import fisica.*;
 
 FWorld mundo;
-FBox miaubel;
 Puntos puntos;
+AbuelaClass abuela;
 Vidaclass vidas;
 Juego juegoMiaubel;
 GatosClass Gatos;
 Perros rinoyperros;
 
-PImage abuela,fondo;
+PImage imagenabuela, fondo;
 int abuX, abuY;
 int punto = 0;
 int vida = 1;
 ArrayList<FCircle> gatosList = new ArrayList<FCircle>();
 ArrayList<FCircle> perrosList = new ArrayList<FCircle>();
+boolean abuelaEnContacto = false;
+  FBody ball = null;
+  FBody abuelita = null;
 
 
 //███████ ███████ ████████ ██    ██ ██████  
@@ -25,33 +28,28 @@ ArrayList<FCircle> perrosList = new ArrayList<FCircle>();
 void setup() {
   size(1500, 1000);
   Fisica.init(this);
-
-  mundo = new FWorld();
-  mundo.setEdges();
-  mundo.setGravity(100, 400);
   
-  fondo = loadImage("fondo.png");
-
-  miaubel = new FBox(300, 150);
-  miaubel.setPosition(width/2, height - 40);
-  miaubel.setRestitution(0);
-  mundo.add(miaubel);
-  miaubel.setStatic(true);
-
-  abuela = loadImage("abu.png");
-  abuela.resize(300, 150);
-
-  miaubel.attachImage(abuela);
-
-  Gatos = new GatosClass();
-  Gatos.imgGatos();
-  rinoyperros = new Perros();
-  rinoyperros.imgPerros();
-  gatosList = new ArrayList<FCircle>();
-  perrosList = new ArrayList<FCircle>();
-  
-  juegoMiaubel = new Juego();
 }
+
+//void contactStarted(FContact c) {
+//  println("hay contacto");
+//  FBody body1 = c.getBody1();
+//  FBody body2 = c.getBody2();
+
+//  if ((body1 == abuela.miaubel && (body2 == Gatos.gatito || body2 == rinoyperros.perrito)) ||
+//    (body2 == abuela.miaubel && (body1 == Gatos.gatito || body1 == rinoyperros.perrito))) {
+//    abuelaEnContacto = true;
+//    if (body1 == Gatos.gatito){
+//      ball = body1;
+//    } else if (body2 == Gatos.gatito){
+//      ball = body2;
+//    }else if (body1 == rinoyperros.perrito){
+//      ball = body1;
+//    } else if (body2 == rinoyperros.perrito){
+//     ball = body2; 
+//    }
+//  }
+//}
 
 //██████  ██████   █████  ██     ██ 
 //██   ██ ██   ██ ██   ██ ██     ██ 
@@ -59,11 +57,11 @@ void setup() {
 //██   ██ ██   ██ ██   ██ ██ ███ ██ 
 //██████  ██   ██ ██   ██  ███ ███  
 void draw() {
-  image (fondo,0,0);
-  mundo.step();
-  mundo.draw();
 
-  juegoMiaubel.funcionar();
+  juegoMiaubel.funcionar(
+  mundo.step();
+  mundo.draw(););
+  puntos = new Puntos(100,100,punto);
 
   for (int i = gatosList.size() - 1; i >= 0; i--) {
     FCircle gato = gatosList.get(i);
@@ -75,24 +73,49 @@ void draw() {
     perro.setPosition(perro.getX(), perro.getY() + 2);
   }
   }
+
+
+  //void contactStarted(FContact c) {
+  //  //Funcion contacto de objetos
+  //  FBody ball = null;
+  //  FBody abuelita = null;
+  //  if (c.getBody1() == abuela.miaubel && c.getBody2() == rinoyperros.perrito) {
+  //      punto -= 1;
+  //      mundo.remove(c.getBody2());
+  //  }
+  //   else if (c.getBody2() == abuela.miaubel && c.getBody1() == rinoyperros.perrito) {
+  //      punto -= 1;
+  //      mundo.remove(c.getBody1()); 
+  //  }
+  //  else if (c.getBody1() == abuela.miaubel && c.getBody2() == Gatos.gatito) {
+  //      punto += 1;
+  //      mundo.remove(c.getBody2());
+  //  }
+  //  else if (c.getBody2() == abuela.miaubel && c.getBody1() == Gatos.gatito) {
+  //      punto += 1;
+  //      mundo.remove(c.getBody1());
+  //  }
+  //}
+
+
   
-void contactStarted(FContact c) {
-  FBody ball = null;
-  if (c.getBody1() == miaubel) {
-    ball = c.getBody2();
-    punto += 1;
-  } else if (c.getBody2() == miaubel) {
-    ball = c.getBody1();
-    punto += 1;
-  }
-  
-  if (ball == null) {
-    return;
-  }
-  
-  ball.setFill(30, 190, 200);
-  mundo.remove(ball);
-}
+//  if (abuelaEnContacto) {
+//    println ("abuela em contacto");
+//    // Incrementa o disminuye puntos y elimina la pelota aquí
+//    if (ball == Gatos.gatito) {
+//      punto += 1;
+//      println ("Se sumo un punto");
+//      mundo.remove(ball);
+//    } else if (ball == rinoyperros.perrito) {
+//      punto -= 1;
+//      println ("Se restó un punto");
+//      mundo.remove(ball);
+//    }
+
+//    // Restablece la variable abuelaEnContacto para evitar múltiples incrementos/disminuciones en el mismo contacto.
+//    abuelaEnContacto = false;
+//  }
+//}
 
 void keyPressed() {
   juegoMiaubel.keyPressed();
