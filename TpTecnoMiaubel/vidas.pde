@@ -11,7 +11,7 @@ class Vidaclass {
   void mostrar() {
     text(totalvidas,50,50);
     if (totalvidas == 3){
-    image (vidacompleta, 25, 20);
+    image (vidacompleta, 25, 31);
     } else if (totalvidas == 2){
     image (vidamenos1, 25, 20);
     } else if (totalvidas == 1){
