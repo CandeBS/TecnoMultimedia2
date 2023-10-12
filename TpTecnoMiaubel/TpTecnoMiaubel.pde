@@ -46,7 +46,7 @@ void setup() {
   mundo = new FWorld();
   mundo.setEdges();
   mundo.setGravity(100, 400);
-  
+
   setupOSC(PUERTO_OSC);
 
   receptor = new Receptor();
@@ -66,12 +66,13 @@ void setup() {
   Gatos.imgGatos();
   perros = new Perros();
   perros.imgPerros();
+  rino = new Rino();
   gatosList = new ArrayList<FCircle>();
   perrosList = new ArrayList<FCircle>();
   juegoMiaubel = new Juego();
   techos = new Techos();
   techos.techosvoid();
-  
+
   minim = new Minim(this);
   ganarSonido = minim.loadFile("ganarSonido.wav");
   perderSonido = minim.loadFile("perderSonido.wav");
@@ -79,6 +80,8 @@ void setup() {
   gatoSonido = minim.loadFile("gatoSonido.wav");
   musicaJuego = minim.loadFile("musicaJuego.wav");
 
+  musicaJuego.loop();
+  musicaJuego.rewind();
 }
 
 //██████  ██████   █████  ██     ██ 
@@ -88,7 +91,7 @@ void setup() {
 //██████  ██   ██ ██   ██  ███ ███  
 void draw() {
   image (fondo, 0, 0);
-  
+
   receptor.actualizar(mensajes);   
 
   // Eventos de entrada y salida
@@ -102,15 +105,14 @@ void draw() {
       admin.removerPuntero(b);
       println("<-- salio blob: " + b.id);
     }
-    
+
     admin.actualizarPuntero(b);
   }
-  
+
   mundo.step();
   mundo.draw();
 
   juegoMiaubel.funcionar();
-
 }
 
 void contactStarted(FContact c) {
@@ -126,28 +128,27 @@ void contactStarted(FContact c) {
       totalvidas -=1;
       perroSonido.play();
       perroSonido.rewind();
-    }
-  } else if (c.getBody2() == miaubel) {
-    if (c.getBody1().getName().equals("gato")) {
+    } else if (c.getBody2().getName().equals("rino")) {
       objeto = c.getBody2();
-      punto +=1;
-      gatoSonido.play();
-      gatoSonido.rewind();
-    } else if (c.getBody1().getName().equals("perro")) {
-      objeto = c.getBody2();
-      totalvidas -=1;
-      perroSonido.play();
-      perroSonido.rewind();
+      totalvidas -=4;
+    } else if (c.getBody2() == miaubel) {
+      if (c.getBody1().getName().equals("gato")) {
+        objeto = c.getBody2();
+        punto +=1;
+        gatoSonido.play();
+        gatoSonido.rewind();
+      } else if (c.getBody1().getName().equals("perro")) {
+        objeto = c.getBody2();
+        totalvidas -=1;
+        perroSonido.play();
+        perroSonido.rewind();
+      } else if (c.getBody2().getName().equals("rino")) {
+        objeto = c.getBody2();
+        totalvidas -=4;
+      }
     }
   }
-  
-  //getbody igual rino, repetir 2 veces, en caso que el rino sea body 1 o 2
-
   if (objeto != null) {
     mundo.remove(objeto);
   }
-}
-
-void keyPressed() {
-  juegoMiaubel.keyPressed();
 }
