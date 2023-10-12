@@ -11,11 +11,11 @@ class GatosClass {
 
   void indxGatos() {
     // Gatitos cayendo
-    if (frameCount % 60 == 0) {
+    if (frameCount % 100 == 0) {
       gatito = new FCircle(50); // Initialize gatito here
       gatito.setPosition(random(0 + 10, width - 10), 2); // De donde salen los gatos
       gatito.setVelocity(0, 200);
-      gatito.setRestitution(1.5);
+      gatito.setRestitution(1);
       gatito.setNoStroke();
       gatito.setFill(200, 30, 90);
       gatito.setName("gato");
