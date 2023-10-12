@@ -14,7 +14,7 @@ class Puntos {
     textSize(45);
     textAlign(LEFT, TOP);
     fill(255);
-    text( punto + "/10 ", 180, 150); 
+    text( punto + "/5 ", 180, 150); 
     pop();
     
     
