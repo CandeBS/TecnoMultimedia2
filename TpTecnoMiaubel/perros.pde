@@ -11,11 +11,11 @@ class Perros {
   }
 
   void indxPerros() {
-    if (frameCount % 60 == 0) {
+    if (frameCount % 100 == 0) {
       perrito = new FCircle(50); 
       perrito.setPosition(random(0 + 10, width - 10), 2); 
       perrito.setVelocity(0, 200);
-      perrito.setRestitution(1.5);
+      perrito.setRestitution(1);
       perrito.setNoStroke();
       perrito.setFill(200, 30, 90);
       perrito.setName("perro");
