@@ -1,6 +1,7 @@
 import fisica.*;
 import gifAnimation.*;
 import ddf.minim.*;
+import ddf.minim.effects.*;
 
 int PUERTO_OSC = 12345;
 
@@ -80,7 +81,7 @@ void setup() {
   gatoSonido = minim.loadFile("gatoSonido.wav");
   musicaJuego = minim.loadFile("musicaJuego.wav");
 
-  musicaJuego.loop();
+  musicaJuego.loop(10);
   musicaJuego.rewind();
 }
 
@@ -93,6 +94,7 @@ void draw() {
   image (fondo, 0, 0);
 
   receptor.actualizar(mensajes);   
+  rino.indxRino();
 
   // Eventos de entrada y salida
   for (Blob b : receptor.blobs) {
