@@ -20,6 +20,7 @@ class Perros {
       perrito.setFill(200, 30, 90);
       perrito.setName("perro");
       mundo.add(perrito);
+      perrosList.add(perrito);
 
       int index = int(random(perros.length)); 
       perrito.attachImage(perros[index]);
