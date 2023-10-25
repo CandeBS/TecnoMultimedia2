@@ -4,12 +4,12 @@ class Juego {
   Vidaclass vidas;
 
   PImage hudGatos, pantNombre, pantGanar, pantPerder, pantRino;
-  PImage[] frame = new PImage[5];
+  PImage[] frame = new PImage[7];
   int pantalla = 0;
   int tiempoPorImagen = 60; // Duración en frames para cada imagen
   int indiceImagenActual = 0; // Índice de la imagen actual
   boolean secuenciaReproducida = false;
-  int tiempoEspera = 180;
+  boolean empezoMusica=false;
 
 
   Juego() { //Constructor con imagenes
@@ -62,12 +62,15 @@ class Juego {
       pantalla = 5;
       perderRino();
     }
+    if (key == 'j' || key == 'J') {
+      pantalla = 2;
+    }
   }
   void nombreJuego() {
     image (pantNombre, 0, 0);
     for (Blob b : receptor.blobs) {
 
-      if (b.entro && frameCount >= tiempoEspera) {
+      if (b.entro) {
         pantalla = 2;
         punto = 0;
         totalvidas = 3;
@@ -83,10 +86,8 @@ class Juego {
 
     for (Blob b : receptor.blobs) {
 
-      if (b.entro && frameCount >= tiempoEspera) {
-        pantalla = 2;
-        punto = 0;
-        totalvidas = 3;
+      if (b.entro) {
+        reinicio();
       }
     }
   }
@@ -98,10 +99,8 @@ class Juego {
     musicaJuego.rewind();
     for (Blob b : receptor.blobs) {
 
-      if (b.entro && frameCount >= tiempoEspera) {
-        pantalla = 2;
-        punto = 0;
-        totalvidas = 3;
+      if (b.entro) {
+        reinicio();
       }
     }
   }
@@ -112,12 +111,33 @@ class Juego {
     musicaJuego.pause();
     for (Blob b : receptor.blobs) {
 
-      if (b.entro && frameCount >= tiempoEspera) {
-        pantalla = 2;
-        punto = 0;
-        totalvidas = 3;
+      if (b.entro) {
+        reinicio();
       }
     }
+  }
+
+  void reinicio() {
+    println("Reiniciando juego");
+    pantalla = 1;
+    totalvidas = 3;
+    punto = 0;
+
+    for (FCircle gato : gatosList) {
+      mundo.remove(gato);
+    }
+    gatosList.clear();
+
+    for (FCircle perro : perrosList) {
+      mundo.remove(perro);
+    }
+    perrosList.clear();
+
+    if (rino.rinocerontito != null) {
+      mundo.remove(rino.rinocerontito);
+    }
+    musicaJuego.rewind();
+    musicaJuego.loop();
   }
 
   void jueguito() {
@@ -127,6 +147,9 @@ class Juego {
     puntos.dibujar(); 
     Gatos.indxGatos();
     perros.indxPerros();
-    musicaJuego.play();
+    if (!empezoMusica) {
+      empezoMusica = true;
+      musicaJuego.loop();
+    }
   }
 }
