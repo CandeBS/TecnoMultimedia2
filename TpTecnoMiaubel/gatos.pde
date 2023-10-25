@@ -20,6 +20,7 @@ class GatosClass {
       gatito.setFill(200, 30, 90);
       gatito.setName("gato");
       mundo.add(gatito);
+      gatosList.add(gatito);
       println("Me ejecuto");
       
       
