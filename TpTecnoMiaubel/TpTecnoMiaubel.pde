@@ -1,3 +1,7 @@
+//Comisión Lisandro - Grupo 6
+//Alumnas: Sequeira Biagetti, Candela - Machado, Camila - Torres, Paula
+//Link al video de youtube: https://youtu.be/pKIwVChO5QI
+
 import fisica.*;
 import gifAnimation.*;
 import ddf.minim.*;
